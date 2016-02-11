@@ -23,8 +23,6 @@ struct Order
 	int nbProducts;
 	vector<pair<int,int> > products;
 };
-*/
-
 struct Drone
 {
 	int row;
@@ -33,6 +31,7 @@ struct Drone
 	vector<pair<int,int> > products;
 	vector<string> commands;
 };
+*/
 
 int rows;
 int columns;
