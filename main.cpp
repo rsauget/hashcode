@@ -5,23 +5,46 @@
 //#include "draw.h"
 #include "compute.h"
 #include "eval.h"
+#include "types.h"
 
 using namespace std;
 
-int n=300;
-int m=300;
-int zoom=2;
+/*
+struct Warehouse
+{
+	int row;
+	int column;
+	vector<int> items;
+};
+struct Order
+{
+	int row;
+	int column;
+	vector<pair<int,int> > products;
+};
+*/
 
-int v;
-vector<vector<int> > t;
+int rows;
+int columns;
+int nbDrones;
+int nbTicks;
+int maxLoad;
+int nbProducts;
+int nbWarehouses;
+int nbOrders;
+
+vector<int> weights;
+vector<Warehouse> warehouses;
+vector<Order> orders;
 
 int main()
 {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
-	t = vector<vector<int> >(n, vector<int>(m,0));
-	input(t,n,m,v);
+	input(rows,columns,nbDrones,nbTicks,maxLoad,nbProducts,nbWarehouses,nbOrders,weights,warehouses,orders);
+	cout << "done" << endl;
 	//draw(t,n,m,zoom);
+	/*
 	int best = -1;
 	int score;
 	while(1)
@@ -34,5 +57,6 @@ int main()
 			output(t,n,m,score);
 		}
 	}
+	*/
 	return 0;
 }
