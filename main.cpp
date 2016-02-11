@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "io.h"
-#include "draw.h"
+//#include "draw.h"
 #include "compute.h"
 #include "eval.h"
 
