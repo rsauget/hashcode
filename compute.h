@@ -1,7 +1,6 @@
 #ifndef COMPUTE_H
 #define COMPUTE_H
 
-#include <bits/stdc++.h>
 #include "types.h"
 #include "io.h"
 

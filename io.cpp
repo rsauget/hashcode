@@ -17,36 +17,37 @@ string toString(int i)
 	return oss.str();
 }
 
-void input(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &nbProducts,int &nbWarehouses,int &nbOrders,vector<int> &weights,vector<Warehouse> &warehouses,vector<Order> &orders, vector<Drone> &drones)
+void input(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &nbProducts,int &nbWarehouses,int &nbOrders,vector<int> &weights,vector<Warehouse> &warehouses,vector<Order> &orders, vector<Drone> &drones, string fileName)
 {
-	cin >> rows >> columns >> nbDrones >> nbTicks >> maxLoad;
+	ifstream in(fileName);
+	in >> rows >> columns >> nbDrones >> nbTicks >> maxLoad;
 
-	cin >> nbProducts;
+	in >> nbProducts;
 	weights.resize(nbProducts);
 	for(int i=0;i<nbProducts;i++)
 	{
-		cin >> weights[i];
+		in >> weights[i];
 	}
 
-	cin >> nbWarehouses;
+	in >> nbWarehouses;
 	warehouses.resize(nbWarehouses);
 	for(int i=0;i<nbWarehouses;i++)
 	{
-		cin >> warehouses[i].row >> warehouses[i].column;
+		in >> warehouses[i].row >> warehouses[i].column;
 		warehouses[i].products.resize(nbProducts);
 		for(int j=0;j<nbProducts;j++)
 		{
-			cin >> warehouses[i].products[j];
+			in >> warehouses[i].products[j];
 		}
 	}
 
-	cin >> nbOrders;
+	in >> nbOrders;
 	orders.resize(nbOrders);
 	int pid;
 	for(int i=0;i<nbOrders;i++)
 	{
-		cin >> orders[i].row >> orders[i].column;
-		cin >> orders[i].nbProducts;
+		in >> orders[i].row >> orders[i].column;
+		in >> orders[i].nbProducts;
 		orders[i].products.resize(orders[i].nbProducts);
 		int items[nbProducts];
 		for(int j=0;j<nbProducts;j++)
@@ -55,7 +56,7 @@ void input(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &n
 		}
 		for(int j=0;j<orders[i].nbProducts;j++)
 		{
-			cin >> pid;
+			in >> pid;
 			items[pid]++;
 		}
 		for(int j=0;j<nbProducts;j++)
@@ -65,6 +66,7 @@ void input(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &n
 				orders[i].products.push_back(make_pair(j,items[j]));
 			}
 		}
+		orders[i].turnDone = -1;
 	}
 
 	drones.resize(nbDrones);
@@ -74,11 +76,12 @@ void input(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &n
 		drones[i].column = warehouses[0].column;
 		drones[i].turnFree = 0;
 	}
+	in.close();
 }
 
-void output(int &nbDrones, vector<Drone> &drones)
+void output(int &nbDrones, vector<Drone> &drones, int& score)
 {
-	ofstream out("out/" + toString(0) + "-" + toString(time(0)));
+	ofstream out("out/" + toString(score) + "-" + toString(time(0)));
 	int nbCommands = 0;
 	for(int i=0;i<nbDrones;i++)
 	{

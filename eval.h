@@ -1,6 +1,7 @@
 #ifndef EVAL_H
 #define EVAL_H
 #include <vector>
+#include "types.h"
 using namespace std;
-int eval(vector<vector<int> > &t, int &n, int &m);
+int eval(int &,vector<Order>&,int&);
 #endif

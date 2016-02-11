@@ -47,33 +47,37 @@ vector<Warehouse> warehouses;
 vector<Order> orders;
 vector<Drone> drones;
 
-int main()
+int main(int argc, char **argv)
 {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
-	input(rows,columns,nbDrones,nbTicks,maxLoad,nbProducts,nbWarehouses,nbOrders,weights,warehouses,orders,drones);
+	if(argc < 2)
+	{
+		cerr << "Usage: " << argv[0] << " file.in" << endl;
+		return -1;
+	}
+	input(rows,columns,nbDrones,nbTicks,maxLoad,nbProducts,nbWarehouses,nbOrders,weights,warehouses,orders,drones,argv[1]);
 	cerr << rows << "x" << columns << " map" << endl;
 	cerr << nbTicks << " ticks" << endl;
 	cerr << nbDrones << " drones" << endl;
 	cerr << nbProducts << " products" << endl;
 	cerr << nbWarehouses << " warehouses" << endl;
 	cerr << nbOrders << " orders" << endl;
-	//draw(rows,columns,nbWarehouses,warehouses,2);
-	output(nbDrones,drones);
 	
 	int best = -1;
 	int score;
 	while(1)
 	{
 		compute(rows,columns,nbDrones,nbTicks,maxLoad,nbProducts,nbWarehouses,nbOrders,weights,warehouses,orders,drones);
-		score = 0;
+		score = eval(nbOrders,orders,nbTicks);
 		if(score > best)
 		{
 			best = score;
-			output(nbDrones,drones);
+			cerr << "score " << score << endl;
+			output(nbDrones,drones,score);
 		}
-		return 0;
+		//reset
+		input(rows,columns,nbDrones,nbTicks,maxLoad,nbProducts,nbWarehouses,nbOrders,weights,warehouses,orders,drones,argv[1]);
 	}
-	
 	return 0;
 }

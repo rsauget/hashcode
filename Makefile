@@ -14,5 +14,6 @@ a.out: main.o compute.o io.o eval.o # draw.o
 clean:
 	rm -f *.o a.out
 
-src.zip:
+src.zip: *.cpp *.h Makefile
 	zip src *.cpp *.h Makefile
+	

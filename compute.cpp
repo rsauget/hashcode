@@ -1,10 +1,12 @@
 #include <vector>
+#include <cmath>
+#include <iostream>
 #include "compute.h"
+
 using namespace std;
 
 const double INF = (1L << 42);
 
-/*
 /*
 struct Warehouse
 {
@@ -47,13 +49,13 @@ typedef pair<int,int> ii;
 typedef pair<ii,int> iii;
 
 double distance(int r1, int c1, int r2, int c2) {
-    double distance = sqrt((r1-r2)*(r1-r2) + (c1-c2)*(c1-c2));
+    return sqrt((r1-r2)*(r1-r2) + (c1-c2)*(c1-c2));
 }
 
 void compute(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &nbProducts,int &nbWarehouses,int &nbOrders,vector<int> &weights,vector<Warehouse> &warehouses,vector<Order> &orders, vector<Drone> &drones)
 {
     for(int turn = 0; turn < nbTicks; turn++) {
-        cout << turn << endl;
+        cerr << turn << endl;
         
         //find an objective for all free drones
         for(int d=0; d<drones.size(); ++d) {
