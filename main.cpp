@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "io.h"
-//#include "draw.h"
+#include "draw.h"
 #include "compute.h"
 #include "eval.h"
 #include "types.h"
@@ -53,7 +53,7 @@ int main()
 	cin.tie(0);
 	input(rows,columns,nbDrones,nbTicks,maxLoad,nbProducts,nbWarehouses,nbOrders,weights,warehouses,orders);
 	cerr << nbWarehouses << " warehouses" << endl;
-	//draw(rows,columns,nbWarehouses,warehouses,2);
+	draw(rows,columns,nbWarehouses,warehouses,2);
 	/*
 	int best = -1;
 	int score;
