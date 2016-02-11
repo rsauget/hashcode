@@ -79,9 +79,10 @@ void input(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &n
 	in.close();
 }
 
-void output(int &nbDrones, vector<Drone> &drones, int& score)
+void output(int &nbDrones, vector<Drone> &drones, int& score, string fileName)
 {
-	ofstream out("out/" + toString(score) + "-" + toString(time(0)));
+	string outFileName = "out/" + fileName.substr(0,fileName.find_last_of(".")) + "-" + toString(score) + "-" + toString(time(0));
+	ofstream out(outFileName);
 	int nbCommands = 0;
 	for(int i=0;i<nbDrones;i++)
 	{
@@ -96,4 +97,5 @@ void output(int &nbDrones, vector<Drone> &drones, int& score)
 		}
 	}
 	out.close();
+	cerr << "written " << outFileName << endl;
 }

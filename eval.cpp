@@ -9,7 +9,7 @@ int eval(int &nbOrders, vector<Order> &orders, int &nbTicks)
 	{
 		if(orders[i].turnDone >= 0)
 		{
-			score += ceil(100 * (nbTicks - orders[i].turnDone) / nbTicks);
+			score += ceil(100 * (nbTicks - orders[i].turnDone - 1) / nbTicks);
 		}
 	}
 	return score;

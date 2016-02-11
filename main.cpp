@@ -70,11 +70,11 @@ int main(int argc, char **argv)
 	{
 		compute(rows,columns,nbDrones,nbTicks,maxLoad,nbProducts,nbWarehouses,nbOrders,weights,warehouses,orders,drones);
 		score = eval(nbOrders,orders,nbTicks);
+		cerr << "score " << score << endl;
 		if(score > best)
 		{
 			best = score;
-			cerr << "score " << score << endl;
-			output(nbDrones,drones,score);
+			output(nbDrones,drones,score,argv[1]);
 		}
 		//reset
 		input(rows,columns,nbDrones,nbTicks,maxLoad,nbProducts,nbWarehouses,nbOrders,weights,warehouses,orders,drones,argv[1]);

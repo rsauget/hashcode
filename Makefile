@@ -1,7 +1,7 @@
 INCLUDE=-I /opt/local/include
 LIB=-L /opt/local/lib # -lX11
 
-.PHONY: clean all
+.PHONY: clean all run
 
 all: a.out src.zip
 
@@ -16,4 +16,3 @@ clean:
 
 src.zip: *.cpp *.h Makefile
 	zip src *.cpp *.h Makefile
-	

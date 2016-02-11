@@ -56,7 +56,7 @@ double distance(int r1, int c1, int r2, int c2) {
 void compute(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &nbProducts,int &nbWarehouses,int &nbOrders,vector<int> &weights,vector<Warehouse> &warehouses,vector<Order> &orders, vector<Drone> &drones)
 {
     for(int turn = 0; turn < nbTicks; turn++) {
-        cerr << turn << endl;
+        //cerr << turn << endl;
         
         //find an objective for all free drones
         for(int d=0; d<drones.size(); ++d) {
