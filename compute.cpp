@@ -147,24 +147,28 @@ void compute(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int 
                 //choose best move and update drone
                 double droneToWare = distance(drones[d].row, drones[d].column, warehouses[bestMove.second].row, warehouses[bestMove.second].column);
                 double wareToOrder = distance(orders[bestOrder].row, orders[bestOrder].column, warehouses[bestMove.second].row, warehouses[bestMove.second].column);
-                drones[d].turnFree += ceil(droneToWare+wareToOrder) + 2*bestMove.first.size();
+                drones[d].turnFree += ceil(droneToWare + wareToOrder) + 2*bestMove.first.size();
                 drones[d].row = orders[bestOrder].row;
                 drones[d].column = orders[bestOrder].column;
 
+                cerr << "hello2" << endl;
                 //update warehouse
-                for(auto pindex : drones[d].products) {
-                    auto p = orders[bestOrder].products[pindex.first];
-                    warehouses[bestMove.second].products[p.first] -= p.second;
-                    for(int p2=0; p2<orders[bestOrder].products.size(); ++p2) {
-                        if(orders[bestOrder].products[p2].first == p.first)
-                            orders[bestOrder].products[p2].second -= p.second;
-                    }
-                }
+                vector<pair<int,int> > products;
 
+                for(auto pindex : drones[d].products) {
+                    int p = orders[bestOrder].products[pindex.first].first;
+                    warehouses[bestMove.second].products[p] -= pindex.second;
+                    for(int p2=0; p2<orders[bestOrder].products.size(); ++p2) {
+                        if(orders[bestOrder].products[p2].first == p)
+                            orders[bestOrder].products[p2].second -= pindex.second;
+                    }
+
+                }
+                cerr << "hello3" << endl;
                 //update order
                 orders[bestOrder].nbProducts-=bestMove.first.size();
                 orders[bestOrder].turnDone = drones[d].turnFree;
-
+                cerr << "hello4" << endl;
                 //write command for output
                 for(auto pindex : drones[d].products) {
                     auto p = orders[bestOrder].products[pindex.first];
@@ -174,6 +178,8 @@ void compute(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int 
                     auto p = orders[bestOrder].products[pindex.first];
                     drones[d].commands.push_back(toString(d) + " D " + toString(bestOrder) + " " + toString(p.first) + " "+toString(p.second));
                 }
+
+                cerr << "duh" << endl;
             }
         }
     }
