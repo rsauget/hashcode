@@ -1,20 +1,23 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
+#include <fstream>
 #include "io.h"
 
 using namespace std;
 
-extern int **t;
-extern int M;
-extern int N;
-
-void read()
+void input(int &t, int &n, int &m)
 {
 	string s;
-	cin >> s;
-	for(int i=0;i<N;i++)
+	cin >> v;
+	cin.ignore(1, ',');
+	cin >> v;
+	cin.ignore(1, ',');
+	cin >> v;
+	cin.ignore(1, ',');
+	for(int i=0;i<n;i++)
 	{
-		for(int j=0;j<M;j++)
+		for(int j=0;j<m;j++)
 		{
 			cin >> t[i][j];
 			cin.ignore(1,',');
@@ -22,7 +25,9 @@ void read()
 	}
 }
 
-void write()
+void output(int &t, int &n, int &m, int &s)
 {
-	system("cp out out." + time(0));
+	ofstream out("out");
+	out << "hello" << endl;
+	system(("cp out out." + to_string(time(0)) + to_string(s)).c_str());
 }
