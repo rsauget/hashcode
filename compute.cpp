@@ -70,12 +70,14 @@ void compute(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int 
                 for(int p=0;p<orders[o].products.size();++p) {
                     if(orders[o].products[p].second==0)
                         continue;
+                    int nbOrderProducts = orders[o].products[p].second;
                     for(int w=0;w<warehouses.size();++w) {
                         if(warehouses[w].products[orders[o].products[p].first] == 0)
                             continue;
                         double productDistance = distance(orders[o].row, orders[o].column, warehouses[w].row, warehouses[w].column);
                         double droneToWare = distance(drones[d].row, drones[d].column, warehouses[w].row, warehouses[w].column);
                         double dist = productDistance + droneToWare;
+                        
                         if(dist<minDist)
                         {
                             minDist = dist;
@@ -103,6 +105,7 @@ void compute(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int 
 
                 //update order
                 orders[o].nbProducts--;
+                orders[o].turnDone = drones[d].turnFree;
 
                 //write command for output
                 drones[d].commands.push_back(toString(d) + " L " + toString(w)  + " " + toString(p) + " 1");
