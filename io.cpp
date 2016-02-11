@@ -66,7 +66,7 @@ void input(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &n
 	}
 }
 
-void output(vector<vector<int> > &t, int &n, int &m, int &s)
+void output()
 {
 	ofstream out("out/" + toString(s) + "-" + toString(time(0)));
 	out << "hello" << endl;

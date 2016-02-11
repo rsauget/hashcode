@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "io.h"
-//#include "draw.h"
+#include "draw.h"
 #include "compute.h"
 #include "eval.h"
 #include "types.h"
@@ -43,8 +43,8 @@ int main()
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
 	input(rows,columns,nbDrones,nbTicks,maxLoad,nbProducts,nbWarehouses,nbOrders,weights,warehouses,orders);
-	cout << "done" << endl;
-	//draw(t,n,m,zoom);
+	cerr << nbWarehouses << " warehouses" << endl;
+	//draw(rows,columns,nbWarehouses,warehouses,2);
 	/*
 	int best = -1;
 	int score;

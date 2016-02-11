@@ -1,6 +1,7 @@
 #ifndef DRAW_H
 #define DRAW_H
 #include <vector>
+#include "types.h"
 using namespace std;
-void draw(vector<vector<int> > &t, int &n, int &m, int &z);
+void draw(int &,int &,int &,vector<Warehouse> &, int);
 #endif

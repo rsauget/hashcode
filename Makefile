@@ -1,9 +1,9 @@
 INCLUDE=-I /opt/local/include
-LIB=-L /opt/local/lib
+LIB=-L /opt/local/lib -lX11
 
 .PHONY: clean
 
-a.out: main.o io.o compute.o eval.o
+a.out: main.o io.o compute.o eval.o draw.o
 	g++ -std=c++11 -o $@ $(LIB) $^
 
 %.o: %.cpp
