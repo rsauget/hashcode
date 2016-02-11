@@ -59,6 +59,7 @@ int main()
 	cerr << nbWarehouses << " warehouses" << endl;
 	cerr << nbOrders << " orders" << endl;
 	//draw(rows,columns,nbWarehouses,warehouses,2);
+	compute(rows,columns,nbDrones,nbTicks,maxLoad,nbProducts,nbWarehouses,nbOrders,weights,warehouses,orders,drones);
 	output(nbDrones,drones);
 	/*
 	int best = -1;
