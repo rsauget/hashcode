@@ -51,9 +51,15 @@ int main()
 {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
-	input(rows,columns,nbDrones,nbTicks,maxLoad,nbProducts,nbWarehouses,nbOrders,weights,warehouses,orders);
+	input(rows,columns,nbDrones,nbTicks,maxLoad,nbProducts,nbWarehouses,nbOrders,weights,warehouses,orders,drones);
+	cerr << rows << "x" << columns << " map" << endl;
+	cerr << nbTicks << " ticks" << endl;
+	cerr << nbDrones << " drones" << endl;
+	cerr << nbProducts << " products" << endl;
 	cerr << nbWarehouses << " warehouses" << endl;
-	draw(rows,columns,nbWarehouses,warehouses,2);
+	cerr << nbOrders << " orders" << endl;
+	//draw(rows,columns,nbWarehouses,warehouses,2);
+	output(nbDrones,drones);
 	/*
 	int best = -1;
 	int score;
@@ -64,7 +70,7 @@ int main()
 		if(score > best)
 		{
 			best = score;
-			output(t,n,m,score);
+			output(nbDrones,drones);
 		}
 	}
 	*/

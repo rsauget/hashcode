@@ -17,7 +17,7 @@ string toString(int i)
 	return oss.str();
 }
 
-void input(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &nbProducts,int &nbWarehouses,int &nbOrders,vector<int> &weights,vector<Warehouse> &warehouses,vector<Order> &orders)
+void input(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &nbProducts,int &nbWarehouses,int &nbOrders,vector<int> &weights,vector<Warehouse> &warehouses,vector<Order> &orders, vector<Drone> &drones)
 {
 	cin >> rows >> columns >> nbDrones >> nbTicks >> maxLoad;
 
@@ -27,6 +27,7 @@ void input(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &n
 	{
 		cin >> weights[i];
 	}
+
 	cin >> nbWarehouses;
 	warehouses.resize(nbWarehouses);
 	for(int i=0;i<nbWarehouses;i++)
@@ -38,6 +39,7 @@ void input(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &n
 			cin >> warehouses[i].products[j];
 		}
 	}
+
 	cin >> nbOrders;
 	orders.resize(nbOrders);
 	int pid;
@@ -64,11 +66,31 @@ void input(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &n
 			}
 		}
 	}
+
+	drones.resize(nbDrones);
+	for(int i=0;i<nbDrones;i++)
+	{
+		drones[i].row = warehouses[0].row;
+		drones[i].column = warehouses[0].column;
+		drones[i].turnFree = 0;
+	}
 }
 
-void output()
+void output(int &nbDrones, vector<Drone> &drones)
 {
 	ofstream out("out/" + toString(0) + "-" + toString(time(0)));
-	out << "hello" << endl;
+	int nbCommands = 0;
+	for(int i=0;i<nbDrones;i++)
+	{
+		nbCommands += drones[i].commands.size();
+	}
+	out << nbCommands << "\n";
+	for(int i=0;i<nbDrones;i++)
+	{
+		for(int j=0;j<drones[i].commands.size();j++)
+		{
+			out << drones[i].commands[j] << "\n";
+		}
+	}
 	out.close();
 }
