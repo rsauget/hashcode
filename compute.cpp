@@ -63,60 +63,117 @@ void compute(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int 
             if(drones[d].turnFree < turn)
                 continue;
 
-            double minDist = INF;
-            pii minMove;
+            double maxScore = -1;
+            pair< vector<pair<int,int>>, int> bestMove;
+            int bestOrder = -1;
 
             //TODO : take multiples products
             for(int o=0;o<orders.size();++o) {
                 if(orders[o].nbProducts==0)
                     continue;
+                double productDistance, droneToWare, dist;
+                vector<pii> productsToBring;
+
+                double maxScoreWare = -1;
+                int bestWare = -1;
+
+                for(int w=0;w<warehouses.size();++w) {
+                    double orderDistance = distance(orders[o].row, orders[o].column, warehouses[w].row, warehouses[w].column);
+                    double scoreWare = 0;
+                    for(int p=0;p<orders[o].products.size();++p) {
+                        int nbOrderProducts = orders[o].products[p].second;
+                        if(warehouses[w].products[orders[o].products[p].first] == 0)
+                            continue;
+                        scoreWare += min(warehouses[w].products[orders[o].products[p].first], nbOrderProducts);
+                    }
+                    scoreWare /= orderDistance;
+                    if(scoreWare > maxScoreWare) {
+                        maxScoreWare = scoreWare;
+                        bestWare = w;
+                    }
+                }
+
                 for(int p=0;p<orders[o].products.size();++p) {
                     if(orders[o].products[p].second==0)
                         continue;
-                    int nbOrderProducts = orders[o].products[p].second;
-                    for(int w=0;w<warehouses.size();++w) {
-                        if(warehouses[w].products[orders[o].products[p].first] == 0)
+                    if(warehouses[bestWare].products[orders[o].products[p].first] == 0)
                             continue;
-                        double productDistance = distance(orders[o].row, orders[o].column, warehouses[w].row, warehouses[w].column);
-                        double droneToWare = distance(drones[d].row, drones[d].column, warehouses[w].row, warehouses[w].column);
-                        double dist = productDistance + droneToWare;
 
-                        if(dist<minDist)
-                        {
-                            minDist = dist;
-                            minMove.first.first = w ;
-                            minMove.first.second = o;
-                            minMove.second.first = p;
-                            minMove.second.second = min(warehouses[w].products[orders[o].products[p].first], nbOrderProducts);
-                            int pd = maxLoad/weights[orders[o].products[p].first];
-                            minMove.second.second = min(minMove.second.second, pd);
+                    int nbOrderProducts = orders[o].products[p].second;
+                    double orderDistance = distance(orders[o].row, orders[o].column, warehouses[bestWare].row, warehouses[bestWare].column);
+
+                    productsToBring.push_back(make_pair(
+                        make_pair(p, bestWare),
+                        make_pair(min(warehouses[bestWare].products[orders[o].products[p].first], nbOrderProducts), orderDistance)
+                        ));
+                }
+
+                double currentWeight = 0;
+                while(true) {
+                    cerr << d << endl;
+                    double maxScore = 0;
+                    int bestProduct = -1;
+                    for(int pindex = 0; pindex<productsToBring.size(); pindex++) {
+                        auto p = productsToBring[pindex];
+                        double score = p.second.first;
+                        int pd = (maxLoad - currentWeight)/weights[orders[o].products[p.first.first].first];
+                        score = min((int)score, pd);
+
+                        if(weights[p.first.first]*p.second.first + currentWeight > maxLoad) {
+                            score = -1;
+                        }
+                        if(score > maxScore) {
+                            bestProduct = pindex;
+                            maxScore = score;
                         }
                     }
+                    if(bestProduct==-1)
+                        break;
+                    drones[d].products.push_back(make_pair(productsToBring[bestProduct].first.first, productsToBring[bestProduct].second.first));
+                    currentWeight += maxScore * weights[orders[o].products[productsToBring[bestProduct].first.first].first];
+               }
+
+                if(drones[d].products.size() > maxScore)
+                {
+                    maxScore = drones[d].products.size();
+                    bestMove = make_pair(drones[d].products, bestWare);
+                    bestOrder = o;
                 }
+                cerr << "yo" << endl;
             }
 
-            if(minDist < INF) {
+            if(maxScore > 0) {
+                cerr << "hello" << endl;
                 //choose best move and update drone
-                drones[d].turnFree += ceil(minDist) + 2;
-                int w = minMove.first.first;
-                int o = minMove.first.second;
-                int x = minMove.second.first;
-                int y = minMove.second.second;
-                int p = orders[o].products[x].first;
-                drones[d].row = orders[o].row;
-                drones[d].column = orders[o].column;
+                double droneToWare = distance(drones[d].row, drones[d].column, warehouses[bestMove.second].row, warehouses[bestMove.second].column);
+                double wareToOrder = distance(orders[bestOrder].row, orders[bestOrder].column, warehouses[bestMove.second].row, warehouses[bestMove.second].column);
+                drones[d].turnFree += ceil(droneToWare+wareToOrder) + 2*bestMove.first.size();
+                drones[d].row = orders[bestOrder].row;
+                drones[d].column = orders[bestOrder].column;
 
                 //update warehouse
-                warehouses[w].products[p]-=y;
-                orders[o].products[x].second-=y;
+                for(auto pindex : drones[d].products) {
+                    auto p = orders[bestOrder].products[pindex.first];
+                    warehouses[bestMove.second].products[p.first] -= p.second;
+                    for(int p2=0; p2<orders[bestOrder].products.size(); ++p2) {
+                        if(orders[bestOrder].products[p2].first == p.first)
+                            orders[bestOrder].products[p2].second -= p.second;
+                    }
+                }
 
                 //update order
-                orders[o].nbProducts-=y;
-                orders[o].turnDone = drones[d].turnFree;
+                orders[bestOrder].nbProducts-=bestMove.first.size();
+                orders[bestOrder].turnDone = drones[d].turnFree;
 
                 //write command for output
-                drones[d].commands.push_back(toString(d) + " L " + toString(w)  + " " + toString(p) + " "+ toString(y));
-                drones[d].commands.push_back(toString(d) + " D " + toString(o) + " " + toString(p) + " "+toString(y));
+                for(auto pindex : drones[d].products) {
+                    auto p = orders[bestOrder].products[pindex.first];
+                    drones[d].commands.push_back(toString(d) + " L " + toString(bestMove.second)  + " " + toString(p.first) + " "+ toString(p.second));
+                }
+                for(auto pindex : drones[d].products) {
+                    auto p = orders[bestOrder].products[pindex.first];
+                    drones[d].commands.push_back(toString(d) + " D " + toString(bestOrder) + " " + toString(p.first) + " "+toString(p.second));
+                }
             }
         }
     }
