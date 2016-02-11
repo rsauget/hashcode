@@ -45,6 +45,7 @@ vector<Drone> drones;
 
 typedef pair<int,int> ii;
 typedef pair<ii,int> iii;
+typedef pair<ii,ii> pii;
 
 double distance(int r1, int c1, int r2, int c2) {
     double distance = sqrt((r1-r2)*(r1-r2) + (c1-c2)*(c1-c2));
@@ -61,7 +62,7 @@ void compute(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int 
                 continue;
 
             double minDist = INF;
-            iii minMove;
+            pii minMove;
 
             //TODO : take multiples products
             for(int o=0;o<orders.size();++o) {
@@ -77,13 +78,16 @@ void compute(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int 
                         double productDistance = distance(orders[o].row, orders[o].column, warehouses[w].row, warehouses[w].column);
                         double droneToWare = distance(drones[d].row, drones[d].column, warehouses[w].row, warehouses[w].column);
                         double dist = productDistance + droneToWare;
-                        
+
                         if(dist<minDist)
                         {
                             minDist = dist;
                             minMove.first.first = w ;
                             minMove.first.second = o;
-                            minMove.second = p;
+                            minMove.second.first = p;
+                            minMove.second.second = min(warehouses[w].products[orders[o].products[p].first], nbOrderProducts);
+                            int pd = maxLoad/weights[orders[o].products[p].first];
+                            minMove.second.second = min(minMove.second.second, pd);
                         }
                     }
                 }
@@ -94,22 +98,23 @@ void compute(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int 
                 drones[d].turnFree += ceil(minDist) + 2;
                 int w = minMove.first.first;
                 int o = minMove.first.second;
-                int x = minMove.second;
+                int x = minMove.second.first;
+                int y = minMove.second.second;
                 int p = orders[o].products[x].first;
                 drones[d].row = orders[o].row;
                 drones[d].column = orders[o].column;
 
                 //update warehouse
-                warehouses[w].products[p]--;
-                orders[o].products[x].second--;
+                warehouses[w].products[p]-=y;
+                orders[o].products[x].second-=y;
 
                 //update order
-                orders[o].nbProducts--;
+                orders[o].nbProducts-=y;
                 orders[o].turnDone = drones[d].turnFree;
 
                 //write command for output
-                drones[d].commands.push_back(toString(d) + " L " + toString(w)  + " " + toString(p) + " 1");
-                drones[d].commands.push_back(toString(d) + " D " + toString(o) + " " + toString(p) + " 1");
+                drones[d].commands.push_back(toString(d) + " L " + toString(w)  + " " + toString(p) + " "+ toString(y));
+                drones[d].commands.push_back(toString(d) + " D " + toString(o) + " " + toString(p) + " "+toString(y));
             }
         }
     }
