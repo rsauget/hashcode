@@ -23,6 +23,14 @@ struct Order
 	int nbProducts;
 	vector<pair<int,int> > products;
 };
+struct Drone
+{
+	int row;
+	int column;
+	int turnFree;
+	vector<pair<int,int> > products;
+	vector<string> commands;
+};
 */
 
 int rows;
@@ -37,6 +45,7 @@ int nbOrders;
 vector<int> weights;
 vector<Warehouse> warehouses;
 vector<Order> orders;
+vector<Drone> drones;
 
 int main()
 {
