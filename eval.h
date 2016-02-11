@@ -1,4 +1,6 @@
 #ifndef EVAL_H
 #define EVAL_H
-int eval(int &t, int &n, int &m);
+#include <vector>
+using namespace std;
+int eval(vector<vector<int> > &t, int &n, int &m);
 #endif

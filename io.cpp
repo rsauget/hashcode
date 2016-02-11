@@ -2,11 +2,20 @@
 #include <string>
 #include <cstdlib>
 #include <fstream>
+#include <sstream>
+#include <vector>
 #include "io.h"
 
 using namespace std;
 
-void input(int &t, int &n, int &m)
+string toString(int i)
+{
+	ostringstream oss;
+	oss<<i;
+	return oss.str();
+}
+
+void input(vector<vector<int> > &t, int &n, int &m, int &v)
 {
 	string s;
 	cin >> v;
@@ -25,9 +34,9 @@ void input(int &t, int &n, int &m)
 	}
 }
 
-void output(int &t, int &n, int &m, int &s)
+void output(vector<vector<int> > &t, int &n, int &m, int &s)
 {
-	ofstream out("out");
+	ofstream out("out/" + toString(s) + "-" + toString(time(0)));
 	out << "hello" << endl;
-	system(("cp out out." + to_string(time(0)) + to_string(s)).c_str());
+	out.close();
 }

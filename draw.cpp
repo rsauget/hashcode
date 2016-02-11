@@ -1,10 +1,11 @@
+#include <vector>
 #include "draw.h"
 #include "CImg.h"
 
 using namespace std;
 using namespace cimg_library;
 
-void draw(int &t, int &n, int &m)
+void draw(vector<vector<int> > &t, int &n, int &m, int &zoom)
 {
 	CImg<unsigned char> image(zoom*m,zoom*n);
 	for(int i=0;i<n;i++)

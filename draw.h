@@ -1,4 +1,6 @@
 #ifndef DRAW_H
 #define DRAW_H
-void draw(int &t, int &n, int &m);
+#include <vector>
+using namespace std;
+void draw(vector<vector<int> > &t, int &n, int &m, int &z);
 #endif

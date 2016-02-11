@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "io.h"
 #include "draw.h"
 #include "compute.h"
@@ -7,25 +8,20 @@
 
 using namespace std;
 
-const int n=300;
-const int m=300;
-const int zoom=2;
+int n=300;
+int m=300;
+int zoom=2;
 
 int v;
-int t[n][m];
-
-int eval(int &t, int &n, int &m)
-{
-	return -1;
-}
+vector<vector<int> > t;
 
 int main()
 {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
-
-	input(t,n,m);
-	draw(t,n,m);
+	t = vector<vector<int> >(n, vector<int>(m,0));
+	input(t,n,m,v);
+	//draw(t,n,m,zoom);
 	int best = -1;
 	int score;
 	while(1)
