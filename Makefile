@@ -1,5 +1,5 @@
 INCLUDE=-I /opt/local/include
-LIB=-L /opt/local/lib -lX11
+LIB=-L /opt/local/lib
 
 .PHONY: clean
 
