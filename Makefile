@@ -1,7 +1,9 @@
 INCLUDE=-I /opt/local/include
 LIB=-L /opt/local/lib # -lX11
 
-.PHONY: clean
+.PHONY: clean all
+
+all: a.out src.zip
 
 a.out: main.o io.o eval.o # draw.o
 	g++ -std=c++11 -o $@ $(LIB) $^
@@ -11,3 +13,6 @@ a.out: main.o io.o eval.o # draw.o
 
 clean:
 	rm -f *.o a.out
+
+src.zip:
+	zip src *.cpp *.h Makefile
