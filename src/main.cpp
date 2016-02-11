@@ -72,7 +72,6 @@ int main()
 			best = score;
 			output(nbDrones,drones);
 		}
-		return 0;
 	}
 	
 	return 0;

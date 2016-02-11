@@ -52,7 +52,7 @@ double distance(int r1, int c1, int r2, int c2) {
 
 void compute(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &nbProducts,int &nbWarehouses,int &nbOrders,vector<int> &weights,vector<Warehouse> &warehouses,vector<Order> &orders, vector<Drone> &drones)
 {
-    for(int turn = 0; turn < nbTicks; turn++) {
+    for(int turn = 0; turn < 400; turn++) {
         cout << turn << endl;
         
         //find an objective for all free drones
@@ -65,13 +65,9 @@ void compute(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int 
 
             //TODO : take multiples products
             for(int o=0;o<orders.size();++o) {
-                if(orders[o].nbProducts==0)
-                    continue;
                 for(int p=0;p<orders[o].products.size();++p) {
-                    if(orders[o].products[p].second==0)
-                        continue;
                     for(int w=0;w<warehouses.size();++w) {
-                        if(warehouses[w].products[orders[o].products[p].first] == 0)
+                        if(warehouses[w].products[p] == 0)
                             continue;
                         double productDistance = distance(orders[o].row, orders[o].column, warehouses[w].row, warehouses[w].column);
                         double droneToWare = distance(drones[d].row, drones[d].column, warehouses[w].row, warehouses[w].column);
@@ -92,16 +88,19 @@ void compute(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int 
                 drones[d].turnFree += ceil(minDist) + 2;
                 int w = minMove.first.first;
                 int o = minMove.first.second;
-                int x = minMove.second;
-                int p = orders[o].products[x].first;
+                int p = minMove.second;
                 drones[d].row = orders[o].row;
                 drones[d].column = orders[o].column;
 
                 //update warehouse
                 warehouses[w].products[p]--;
-                orders[o].products[x].second--;
 
                 //update order
+                for(int p2=0;p2<orders[o].products.size();++p2) {
+                    if(p == orders[o].products[p2].first) {
+                        orders[o].products[p2].second--;
+                    }
+                }
                 orders[o].nbProducts--;
 
                 //write command for output
