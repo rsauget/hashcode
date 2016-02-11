@@ -27,7 +27,6 @@ void input(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &n
 	{
 		cin >> weights[i];
 	}
-
 	cin >> nbWarehouses;
 	warehouses.resize(nbWarehouses);
 	for(int i=0;i<nbWarehouses;i++)
