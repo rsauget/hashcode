@@ -2,6 +2,13 @@
 
 using namespace std;
 
+string toString(int i)
+{
+	ostringstream oss;
+	oss<<i;
+	return oss.str();
+}
+
 void read()
 {
 
@@ -30,6 +37,6 @@ int main()
 	read();
 	compute();
 	write();
-	
+
 	return 0;
 }
