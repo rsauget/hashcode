@@ -3,6 +3,7 @@
 using namespace std;
 
 const double INF = (1L << 42);
+
 /*
 /*
 struct Warehouse
@@ -49,14 +50,14 @@ double distance(int r1, int c1, int r2, int c2) {
     double distance = sqrt((r1-r2)*(r1-r2) + (c1-c2)*(c1-c2));
 }
 
-void compute(vector<vector<int> > &t, int &n, int &m)
+void compute(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &nbProducts,int &nbWarehouses,int &nbOrders,vector<int> &weights,vector<Warehouse> &warehouses,vector<Order> &orders, vector<Drone> &drones)
 {
     for(int turn = 0; turn < nbTicks; turn++) {
         cout << turn << endl;
         
         //find an objective for all free drones
         for(int d=0; d<drones.size(); ++d) {
-            if(d.turnFree < turn)
+            if(drones[d].turnFree < turn)
                 continue;
 
             double minDist = INF;
@@ -66,7 +67,7 @@ void compute(vector<vector<int> > &t, int &n, int &m)
             for(int o=0;o<orders.size();++o) {
                 for(int p=0;p<orders[o].products.size();++p) {
                     for(int w=0;w<warehouses.size();++w) {
-                        if(warehouses[w].items[orders[o].products[p]] == 0)
+                        if(warehouses[w].products[p] == 0)
                             continue;
                         double productDistance = distance(orders[o].row, orders[o].column, warehouses[w].row, warehouses[w].column);
                         double droneToWare = distance(drones[d].row, drones[d].column, warehouses[w].row, warehouses[w].column);
@@ -84,7 +85,7 @@ void compute(vector<vector<int> > &t, int &n, int &m)
 
             if(minDist < INF) {
                 //choose best move and update drone
-                turnFree += ceil(minDist) + 2;
+                drones[d].turnFree += ceil(minDist) + 2;
                 int w = minMove.first.first;
                 int o = minMove.first.second;
                 int p = minMove.second;
@@ -103,8 +104,8 @@ void compute(vector<vector<int> > &t, int &n, int &m)
                 orders[o].nbProducts--;
 
                 //write command for output
-                drones[d].push_back(toString(d) + " L " + toString(w)  + " " + toString(p) + " 1");
-                drones[d].push_back(toString(d) + " D " + toString(o) + " " + toString(p) + " 1");
+                drones[d].commands.push_back(toString(d) + " L " + toString(w)  + " " + toString(p) + " 1");
+                drones[d].commands.push_back(toString(d) + " D " + toString(o) + " " + toString(p) + " 1");
             }
         }
     }

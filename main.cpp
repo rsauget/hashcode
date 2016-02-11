@@ -60,19 +60,19 @@ int main()
 	cerr << nbOrders << " orders" << endl;
 	//draw(rows,columns,nbWarehouses,warehouses,2);
 	output(nbDrones,drones);
-	/*
+	
 	int best = -1;
 	int score;
 	while(1)
 	{
-		compute(t,n,m);
-		score = eval(t,n,m);
+		compute(rows,columns,nbDrones,nbTicks,maxLoad,nbProducts,nbWarehouses,nbOrders,weights,warehouses,orders,drones);
+		score = 0;
 		if(score > best)
 		{
 			best = score;
 			output(nbDrones,drones);
 		}
 	}
-	*/
+	
 	return 0;
 }
