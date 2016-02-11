@@ -14,12 +14,13 @@ struct Warehouse
 {
 	int row;
 	int column;
-	vector<int> items;
+	vector<int> products;
 };
 struct Order
 {
 	int row;
 	int column;
+	int nbProducts;
 	vector<pair<int,int> > products;
 };
 */

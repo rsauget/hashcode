@@ -38,7 +38,6 @@ void input(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &n
 			cin >> warehouses[i].products[j];
 		}
 	}
-
 	cin >> nbOrders;
 	orders.resize(nbOrders);
 	int pid;
@@ -50,7 +49,7 @@ void input(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &n
 		int items[nbProducts];
 		for(int j=0;j<nbProducts;j++)
 		{
-			items[i] = 0;
+			items[j] = 0;
 		}
 		for(int j=0;j<orders[i].nbProducts;j++)
 		{
