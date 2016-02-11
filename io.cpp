@@ -68,7 +68,7 @@ void input(int &rows,int &columns,int &nbDrones,int &nbTicks,int &maxLoad,int &n
 
 void output()
 {
-	ofstream out("out/" + toString(s) + "-" + toString(time(0)));
+	ofstream out("out/" + toString(0) + "-" + toString(time(0)));
 	out << "hello" << endl;
 	out.close();
 }
